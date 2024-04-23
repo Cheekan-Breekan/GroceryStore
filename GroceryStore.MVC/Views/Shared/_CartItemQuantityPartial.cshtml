@@ -1,0 +1,9 @@
+﻿@model CartItemQuantityVM
+
+<div class="quantity-input-inner mb-4">
+    <input type="hidden" id="cart-item-id" value="@Model.CartItemId" />
+    <button type="button" class="btn-minus quantity-controls" id="btn-minus-@Model.CartItemId">-</button>
+    <input readonly type="number" id="quantity-input-@Model.CartItemId" class="quantity-input quantity-controls control-max-width"
+           name="productQuantity" value="@Model.Quantity" data-max-count="100" />
+    <button type="button" class="btn-plus quantity-controls" id="btn-plus-@Model.CartItemId">+</button>
+</div>

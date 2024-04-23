@@ -1,0 +1,96 @@
+﻿@model List<ProductDto>
+@{
+    string controllerName = ControllerExt.NameOf<ProductsEditorController>();
+    Pager pager = new Pager();
+    int page = 0;
+    if (ViewBag.Pager is not null)
+    {
+        pager = ViewBag.Pager;
+        page = pager.CurrentPage;
+        pager.CurrentSearchFilter = ViewBag.CurrentSearchFilter;
+        pager.CurrentSortOrder = ViewBag.CurrentSortOrder;
+        pager.CurrentSelectedCategory = ViewBag.CurrentSelectedCategory;
+    }
+}
+
+<h1 class="heading">Продукты</h1>
+<div class="editor">
+    <div class="editor-add-btn">
+        <span>Добавить новый продукт: </span>
+        <button class="btn mt-0" type="button" onclick="location.href='@Url.Action(nameof(ProductsEditorController.AddProduct), controllerName)'">Добавить</button>
+    </div>
+    <div class="filters">
+        <form method="get" asp-action="Index" asp-controller="@controllerName">
+            <input id="search-filter" name="searchFilter" placeholder="Поиск по названию..." value="@(ViewBag.CurrentSearchFilter as string)" />
+            <input name="sortOrder" value="@ViewBag.CurrentSortOrder" hidden />
+            <input name="categoryFilter" value="@ViewBag.CurrentSelectedCategory" hidden />
+            <button class="details-btn" type="submit">Искать</button>
+        </form>
+        <form>
+            <label id="categoryFilter">Выбрать категорию: </label>
+            <select asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name", ViewBag.CurrentSelectedCategory))" id="categoryFilter" class="form-control select-filter" name="categoryFilter">
+                <option value="0">Нет категории</option>
+            </select>
+            <button class="details-btn" type="submit">Выбрать</button>
+        </form>
+    </div>
+    <table class="editor-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>
+                    <a asp-action="@nameof(ProductsEditorController.Index)" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.NameSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter" asp-route-categoryFilter="@ViewBag.CurrentSelectedCategory">Наименование</a>
+                </th>
+                <th>
+                    <a asp-action="@nameof(ProductsEditorController.Index)" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.CategorySortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter" asp-route-categoryFilter="@ViewBag.CurrentSelectedCategory">Категория</a>
+                </th>
+                <th>
+                    <a asp-action="@nameof(ProductsEditorController.Index)" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.PriceSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter" asp-route-categoryFilter="@ViewBag.CurrentSelectedCategory">Цена</a>
+                </th>
+                <th>
+                    <a asp-action="@nameof(ProductsEditorController.Index)" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.QuantitySortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter" asp-route-categoryFilter="@ViewBag.CurrentSelectedCategory">Количество</a>
+                </th>
+                <th>
+                    <a asp-action="@nameof(ProductsEditorController.Index)" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.OrdersCountSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter" asp-route-categoryFilter="@ViewBag.CurrentSelectedCategory">Заказы</a>
+                </th>
+                <th>В продаже</th>
+                <th>Детали</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model?.Count >= 1)
+            {
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Category.Name</td>
+                        <td>@product.Price</td>
+                        <td>@product.Quantity</td>
+                        <td>@product.OrdersCount</td>
+                        <td>@(product.IsDeleted ? "Нет" : "Да")</td>
+                        <td>
+                            <button class="details-btn" type="button"
+                                    onclick="location.href='@Url.Action(nameof(ProductsEditorController.EditProduct), controllerName, new {productId = product.Id})'">
+                                Подробнее
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7">Продукты не найдены!</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <partial name="_PagerPartial" model="pager"></partial>
+</div>

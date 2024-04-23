@@ -1,0 +1,42 @@
+﻿@model UserLoginModel
+
+
+<div class="contact">
+    <h1 class="heading">Войти в аккаунт</h1>
+    <div class="row">
+        <form asp-action="@nameof(AccountController.Login)" class="form">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div>
+                <label asp-for="UserNameOrEmail"></label>
+                <div>
+                    <span asp-validation-for="UserNameOrEmail" class="text-danger"></span>
+                </div>
+                <input asp-for="UserNameOrEmail" placeholder="Логин/Почта" class="box" />
+            </div>
+            <div>
+                <label asp-for="Password"></label>
+                <div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <input asp-for="Password" placeholder="Ваш пароль" class="box" />
+            </div>
+            <div class="checkbox-box">
+                <label asp-for="IsPersistent" class="checkbox-label"></label>
+                <div>
+                    <span asp-validation-for="IsPersistent" class="text-danger"></span>
+                </div>
+                <input asp-for="IsPersistent" type="checkbox" checked="checked" class="checkbox"/>
+            </div>
+            <button class="btn" type="submit">Войти</button>
+            <div>
+                <a class="forgot-password" asp-action="@nameof(AccountController.ForgotPassword)">Сброс пароля</a>
+            </div>
+            <div>
+                <a class="forgot-password" asp-action="@nameof(AccountController.Register)">Нет аккаунта? Создайте!</a>
+            </div>
+        </form>
+        <div class="image">
+            <img src="~/Images/register.jpg" alt="" />
+        </div>
+    </div>
+</div>

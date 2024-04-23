@@ -1,0 +1,2 @@
+﻿@model string
+<img src="@(Url.Action(nameof(ImagesController.GetImage), ControllerExt.NameOf<ImagesController>(), new {imagePath = @Model}))"/>

@@ -1,0 +1,18 @@
+﻿@model string
+@{
+    bool isEmailFormNeeded = false;
+    if (ViewBag.IsEmailFormNeeded is not null)
+    {
+        isEmailFormNeeded = ViewBag.IsEmailFormNeeded;
+    }
+}
+
+<div class="lone-field-page">
+    <h1 class="message">@Model</h1>
+
+    @if (isEmailFormNeeded)
+    {
+        <partial name="_EmailFormPartial" model="@(new UserEmailModel())" />
+    }
+</div>
+

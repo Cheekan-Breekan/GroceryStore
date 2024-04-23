@@ -1,0 +1,48 @@
+﻿@model UserInfoModel
+
+<form asp-action="@nameof(AccountController.Profile)" asp-controller="@(ControllerExt.NameOf<AccountController>())" class="form">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div>
+        <label asp-for="UserName"></label>
+        <div>
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <input asp-for="UserName" placeholder="Ваш логин" class="box" />
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <input asp-for="Email" placeholder="Электронная почта" class="box" />
+    </div>
+    <div>
+        <label asp-for="FirstName"></label>
+        <div>
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <input asp-for="FirstName" placeholder="Ваше имя" class="box" />
+    </div>
+    <div>
+        <label asp-for="LastName"></label>
+        <div>
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <input asp-for="LastName" placeholder="Ваша фамилия" class="box" />
+    </div>
+    <div>
+        <label asp-for="MiddleName"></label>
+        <div>
+            <span asp-validation-for="MiddleName" class="text-danger"></span>
+        </div>
+        <input asp-for="MiddleName" placeholder="Ваше отчество" class="box" />
+    </div>
+    <div>
+        <label asp-for="BirthDate"></label>
+        <div>
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
+        </div>
+        <input asp-for="BirthDate" min="1900-01-01" max="2030-01-01" class="box" />
+    </div>
+    <button class="btn mb-3" type="submit">Изменить данные</button>
+</form>

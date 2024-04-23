@@ -1,0 +1,85 @@
+﻿@model ProductDto
+@{
+    bool isInCart = false;
+    CartItemDto cartItem = new();
+    if (ViewBag.CartItemIdAndQuantity is not null)
+    {
+        cartItem = ViewBag.CartItemIdAndQuantity;
+        isInCart = true;
+    }
+}
+
+<div class="contact">
+    <div class="row">
+        @if (!string.IsNullOrEmpty(Model.ImageMainPath))
+        {
+            <div class="image align-items-center">
+                <div class="small-images">
+                    <img onclick="changeDisplayImage(this)"
+                        src="@(Url.Action(nameof(ImagesController.GetImage), ControllerExt.NameOf<ImagesController>(), new {imagePath = Model.ImageMainPath}))" />
+                    @if (Model.ImagePaths?.Count > 0)
+                    {
+                        @foreach (var imagePath in Model.ImagePaths)
+                        {
+                            <img onclick="changeDisplayImage(this)"
+                                src="@(Url.Action(nameof(ImagesController.GetImage), ControllerExt.NameOf<ImagesController>(), new {imagePath = imagePath}))" />
+                        }
+                    }
+                </div>
+                <div class="m-auto">
+                    <img id="display-main-image" class="product-info-image"
+                         src="@(Url.Action(nameof(ImagesController.GetImage), ControllerExt.NameOf<ImagesController>(), new {imagePath = Model.ImageMainPath}))" />
+                </div>
+            </div>
+        }
+        <div class="info">
+            <h1>@Model.Name</h1>
+            <span>Описание товара: </span>
+            <p>@Model.Description</p>
+            <p>
+                @if (Model.IsDeleted)
+                {
+                    <span>Товар не продаётся</span>
+                }
+                else
+                {
+                    <span>Цена: </span>
+
+                    @Model.Price
+                }
+            </p>
+            <p><span>Заказов: </span>@Model.OrdersCount</p>
+            <p><span>Категория: </span>@Model.Category.Name</p>
+            <p><span>Количество: </span>@((Model.IsDeleted || Model.Quantity < 1) ? "Нет на складе" : $"{Model.Quantity}")</p>
+            @if (!Model.IsDeleted && Model.Quantity > 0)
+            {
+                <form asp-action="@nameof(HomeController.AddProductToCart)" method="post" id="quantity-script" data-productid="@Model.Id">
+                    <input readonly type="hidden" name="productId" value="@Model.Id" />
+                    <div id="refresh-cartquantity">
+                        @if (isInCart)
+                        {
+                            <div class="quantity-field-@(cartItem.Id)">
+                                @* Сюда грузится обновлённый _CartItemQuantityPartial.cshtml после Ajax запроса*@
+                                <partial name="_CartItemQuantityPartial" model="@(new CartItemQuantityVM {CartItemId = cartItem.Id, Quantity = cartItem.Quantity})"></partial>
+                            </div>
+                        }
+                        else
+                        {
+                            <partial name="_ProductQuantityPartial" model="Model.Id" />
+                        }
+                    </div>
+                    <input hidden readonly value="@Model.Quantity" id="product-storage-quantity-@Model.Id" />
+                </form>
+            }
+            else
+            {
+                <span>В данное время товар купить невозможно.</span>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/js/changedisplayimage.js"></script>
+<script src="~/js/addproducttocartinfopage-ajax.js"></script>
+<script src="~/js/updatecartitemquantityajax.js"></script>
+<script src="~/js/inputquantitybuttons.js"></script>

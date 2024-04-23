@@ -1,0 +1,39 @@
+﻿@model List<ProductVM>
+@{
+}
+
+@foreach (var product in Model)
+{
+    <div class="box">
+        <span class="discount">@product.Category.Name</span>
+        <span class="product-orders-count">Заказов: @product.OrdersCount</span>
+        <div class="image">
+            <a asp-action="@nameof(HomeController.ProductInfo)" asp-route-productId="@product.Id">
+                <img class="product-image" src="@(Url.Action(nameof(ImagesController.GetImage), ControllerExt.NameOf<ImagesController>(), new {imagePath = product.ImageMainPath}))" />
+            </a>
+            <div id="incartorquantity" class="icons">
+                @if (product.IsInCart)
+                {
+                    <partial name="_ProductAlreadyInCartPartial" />
+                }
+                else if (product.Quantity > 0)
+                {
+                    <form asp-action="@nameof(HomeController.AddProductToCart)" method="post" id="quantity-script" data-productid="@product.Id">
+                        <input readonly type="hidden" name="productId" value="@product.Id" />
+                        <partial name="_ProductQuantityPartial" model="product.Id" />
+                        <input hidden readonly value="@product.Quantity" id="product-storage-quantity-@product.Id" />
+                    </form>
+                }
+                else
+                {
+                    <span class="already-in-cart">Нет в наличии</span>
+                }
+            </div>
+        </div>
+        <div class="content">
+            <h3><a asp-action="@nameof(HomeController.ProductInfo)" asp-route-productId="@product.Id">@product.Name</a></h3>
+            <div class="price">@(product.Price)₽</div>
+
+        </div>
+    </div>
+}

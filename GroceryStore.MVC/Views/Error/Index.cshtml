@@ -1,0 +1,16 @@
+﻿@model ProblemDetails
+@{
+    string statuscode = string.Empty;
+    if (Model.Status == 404)
+    {
+        statuscode = "error-not-found";
+    }
+}
+
+<div class="error-page @(statuscode)">
+    <div class="error-page-messages">
+        <h1>Ошибка @Model.Status</h1>
+        <h2>@Model.Title</h2>
+        <h2>@Model.Detail</h2>
+    </div>
+</div>

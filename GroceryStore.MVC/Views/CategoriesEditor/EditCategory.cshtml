@@ -1,0 +1,73 @@
+﻿@model CategoryDto
+@{
+    string controllerName = ControllerExt.NameOf<CategoriesEditorController>();
+    bool isExist = Model.Id != default ? true : false;
+    string actionName = isExist ? nameof(CategoriesEditorController.EditCategory) : nameof(CategoriesEditorController.AddCategory);
+}
+
+<partial name="_ValidationScriptsPartial" />
+<h1 class="heading">@(isExist ? "Редактирование категории" : "Добавление новой категории").</h1>
+<div class="fs-4 text-center">
+    <a class="details-btn" asp-action="@(nameof(CategoriesEditorController.Index))" asp-controller="@controllerName">Вернуться к списку</a>
+</div>
+<div>
+    <div class="lone-field-page m-5">
+        @if (Model.IsDeleted)
+        {
+            <h3>В данный момент категория удалена и недоступна для пользователей!!!</h3>
+        }
+        <form asp-action=@actionName asp-controller=@(ControllerExt.NameOf<CategoriesEditorController>())>
+            <div asp-validation-summary="All" class="text-danger fs-4"></div>
+            <div>
+                <label class="fs-5 m-0" asp-for="Name"></label>
+                <div>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <input class="box" asp-for="Name" />
+            </div>
+            <div>
+                <label class="fs-5 m-0" asp-for="Description"></label>
+                <div>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <textarea class="box" asp-for="Description"></textarea>
+            </div>
+            @if (isExist)
+            {
+                <div>
+                    <label class="fs-5 m-0" asp-for="ProductsCount"></label>
+                    <div>
+                        <span asp-validation-for="ProductsCount" class="text-danger"></span>
+                    </div>
+                    <input class="box" asp-for="ProductsCount" readonly />
+                    <input asp-for="Id" hidden readonly />
+                    <input asp-for="IsDeleted" hidden readonly />
+                </div>
+            }
+            <button type="submit" class="btn mb-4">@(isExist ? "Изменить" : "Добавить")</button>
+        </form>
+        @if (isExist)
+        {
+            <div class="text-center">
+                @if (Model.ProductsCount == 0 && !Model.IsDeleted)
+                {
+                    <a class="btn" asp-action="@nameof(CategoriesEditorController.DeleteOrRestoreCategory)" asp-route-categoryId="@Model.Id" asp-route-isToDelete="true"
+                       onclick="return confirm('Вы точно хотите удалить данную категорию? Данное действие уберёт категорию для пользователей.')">
+                        Удалить
+                    </a>
+                }
+                else if (Model.IsDeleted)
+                {
+                    <a class="btn" asp-action="@nameof(CategoriesEditorController.DeleteOrRestoreCategory)" asp-route-categoryId="@Model.Id" asp-route-isToDelete="false"
+                       onclick="return confirm('Вы точно хотите восстановить данную категорию? Данное действие вернёт категорию для пользователей.')">
+                        Восстановить
+                    </a>
+                }
+                else
+                {
+                    <h3>Невозможно удалить данную категорию, т.к. к ней приписаны продаваемые продукты. Их количество: @Model.ProductsCount</h3>
+                }
+            </div>
+        }
+    </div>
+</div>

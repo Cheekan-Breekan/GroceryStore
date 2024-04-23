@@ -1,0 +1,17 @@
+﻿@model NotificationVM
+@if (Model is not null)
+{
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    @if (Model.IsError)
+    {
+        <script>
+            toastr.error('@(Model.Message)')
+        </script>
+    }
+    else
+    {
+        <script>
+            toastr.success('@(Model.Message)')
+        </script>
+    }
+}

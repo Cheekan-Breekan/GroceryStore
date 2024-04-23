@@ -1,0 +1,31 @@
+﻿@model UserProfileVM
+@{
+}
+<partial name="_ValidationScriptsPartial" />
+
+
+<div class="contact">
+    <h1 class="heading">Ваш профиль</h1>
+    <div class="profile-links">
+        <a class="link" asp-controller="@(ControllerExt.NameOf<OrdersController>())" asp-action="@nameof(OrdersController.OrdersHistory)">История заказов</a>
+    </div>
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="profile-links">
+            <h3>Администраторские возможности:</h3>
+            <a class="link" asp-controller=@(ControllerExt.NameOf<ProductsEditorController>()) asp-action=@nameof(ProductsEditorController.Index)>
+                Редактор продуктов
+            </a>
+            <a class="link" asp-controller=@(ControllerExt.NameOf<CategoriesEditorController>()) asp-action=@nameof(CategoriesEditorController.Index)>
+                Редактор категорий
+            </a>
+        </div>
+    }
+
+
+    <div class="row">
+        <partial name="_UserInfo" model="@Model.UserInfoModel" />
+        <partial name="_ChangePassword" model="@Model.UserChangePasswordModel" />
+    </div>
+</div>
+

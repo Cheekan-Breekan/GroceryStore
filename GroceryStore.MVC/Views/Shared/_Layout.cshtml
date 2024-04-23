@@ -3,47 +3,114 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - GroceryStore.MVC</title>
+    <title>@ViewData["Title"] - Продукты</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/GroceryStore.MVC.styles.css" asp-append-version="true" />
+    <link href="~/lib/toastr.js/toastr.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/toastr.js/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    @await RenderSectionAsync("Scripts", required: false)
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">GroceryStore.MVC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <input type="checkbox" id="toggler" name="">
+        <label for="toggler" class="fas fa-bars"></label>
+        <a href="#" class="logo">TestMarket<span>.</span></a>
+        <nav class="navbar">
+            <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.Index)>Магазин</a>
+            <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.About)>О нас</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller=@(ControllerExt.NameOf<AccountController>()) asp-action=@nameof(AccountController.Logout)>
+                    Выйти
+                </a>
+            }
+            else
+            {
+                <a asp-controller=@(ControllerExt.NameOf<AccountController>()) asp-action=@nameof(AccountController.Register)>
+                    Регистрация
+                </a>
+                <a asp-controller=@(ControllerExt.NameOf<AccountController>()) asp-action=@nameof(AccountController.Login)>
+                    Войти
+                </a>
+            }
         </nav>
+        <div class="icons">
+            <a asp-controller=@(ControllerExt.NameOf<AccountController>()) asp-action=@nameof(AccountController.Profile) class="fas fa-user"></a>
+            <a asp-controller=@(ControllerExt.NameOf<CartsController>()) asp-action=@nameof(CartsController.Index) class="fas fa-shopping-cart"></a>
+        </div>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div>
+        <main role="main">
+            <partial name="_ToastrNotification" model="ViewBag.Notification"></partial>
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - GroceryStore.MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+    <footer>
+        <section class="icons-container">
+            <div class="icons">
+                <img src="~/Images/icons8-shipping-50.png" />
+                <div class="info">
+                    <h3>Бесплатная доставка</h3>
+                    <span>на все заказы</span>
+                </div>
+            </div>
+            <div class="icons">
+                <img src="~/Images/icons8-cash-50.png" />
+                <div class="info">
+                    <h3>Возврат денег</h3>
+                    <span>за 10 дней</span>
+                </div>
+            </div>
+            <div class="icons">
+                <img src="~/Images/icons8-sales-50.png" />
+                <div class="info">
+                    <h3>Акции</h3>
+                    <span>на все заказы</span>
+                </div>
+            </div>
+            <div class="icons">
+                <img src="~/Images/icons8-easy-50.png" />
+                <div class="info">
+                    <h3>Простота</h3>
+                    <span>и лёгкость</span>
+                </div>
+            </div>
+        </section>
+        <section class="footer">
+            <div class="box-container">
+                <div class="box">
+                    <h3>Навигация</h3>
+                    <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.Index)>Магазин</a>
+                    <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.About)>О нас</a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller=@(ControllerExt.NameOf<AccountController>()) asp-action=@nameof(AccountController.Profile)>
+                            Профиль
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller=@(ControllerExt.NameOf<AccountController>()) asp-action=@nameof(AccountController.Register)>
+                            Регистрация
+                        </a>
+                        <a asp-controller=@(ControllerExt.NameOf<AccountController>()) asp-action=@nameof(AccountController.Login)>
+                            Войти
+                        </a>
+                    }
+                </div>
+                <div class="box">
+                    <h3>Мои контакты</h3>
+                    <a href="https://t.me/mrsega13">Телеграм</a>
+                    <a href="https://github.com/Cheekan-Breekan">Гитхаб</a>
+                    <span>Телефон: 8-927-860-09-64</span>
+                </div>
+            </div>
+            <div class="credit">Создано Куприяновым Сергеем (Cheekan-Breekan) | Все права защищены.</div>
+        </section>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

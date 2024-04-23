@@ -1,8 +1,94 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using System.Text.Json
+@model List<CategoryDto>
+
+@{
+    string controllerName = ControllerExt.NameOf<HomeController>();
+    string indexAction = nameof(HomeController.Index);
+    if (string.IsNullOrEmpty(ViewBag.CurrentSortOrder)) { ViewBag.CurrentSortOrder = string.Empty; }
+    if (string.IsNullOrEmpty(ViewBag.CurrentSearchFilter)) { ViewBag.CurrentSearchFilter = string.Empty; }
+    if (ViewBag.CurrentSelectedCategory is null) { ViewBag.CurrentSelectedCategory = 0; }
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@Html.AntiForgeryToken() @* Нужен для токена в ajax запросе *@
+<script>
+    //Для js infinityscroll скрипта объявляем глобальные js переменные
+    var sortOrderParam = @Html.Raw(JsonSerializer.Serialize(ViewBag.CurrentSortOrder));
+    var currentFilterParam = @Html.Raw(JsonSerializer.Serialize(ViewBag.CurrentSearchFilter));
+    var categoryFilterParam = @Html.Raw(JsonSerializer.Serialize(ViewBag.CurrentSelectedCategory));
+</script>
+<script src="~/js/infinityscroll.js"></script>
+<script src="~/js/addproducttocarthomepage-ajax.js"></script>
+<script src="~/js/inputquantitybuttons.js"></script>
+<script src="~/js/rememberscrollposition.js"></script>
+
+
+<div class="общий для всей страницы">
+    <section class="home" id="home">
+        <div class="content">
+            <h3>Бакалея свежести</h3>
+            <span>Вкусно и полезно</span>
+            <p>
+                Откройте для себя наш магазин свежих продуктов, где качество и свежесть - наш главный приоритет.
+                Мы предлагаем широкий выбор свежих фруктов, овощей и мяса премиум-класса, чтобы помочь вам поддерживать здоровый образ жизни.
+                Погрузитесь в изысканный вкус и богатство питательных веществ с каждым укусом!
+            </p>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a class="btn" asp-controller=@(ControllerExt.NameOf<AccountController>()) asp-action=@nameof(AccountController.Login)>
+                    Войти!
+                </a>
+            }
+        </div>
+    </section>
+    <div class="products-filters">
+        <div class="row">
+            <div class="filters">
+                <div class="search">
+                    <form method="get" asp-action="@indexAction" asp-controller="@controllerName">
+                        <p class="filter-title">Поиск по названию:</p>
+                        <input class="filter-child" name="searchFilter" placeholder="Введите..." value="@(ViewBag.CurrentSearchFilter as string)" />
+                        <input name="sortOrder" value="@ViewBag.CurrentSortOrder" hidden />
+                        <input name="categoryFilter" value="@ViewBag.CurrentSelectedCategory" hidden />
+                        <div>
+                            <button class="search-filter-btn" type="submit">Искать</button>
+                        </div>
+                    </form>
+                </div>
+                <div></div>
+                <div class="sort">
+                    <p class="filter-title">Сортировать по: </p>
+                    <a class="filter-child" asp-action="@indexAction" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.NameSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter" asp-route-categoryFilter="@ViewBag.CurrentSelectedCategory">
+                        По названию
+                    </a>
+                    <a class="filter-child" asp-action="@indexAction" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.PriceSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter" asp-route-categoryFilter="@ViewBag.CurrentSelectedCategory">
+                        По цене
+                    </a>
+                    <a class="filter-child" asp-action="@indexAction" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.OrdersCountSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter" asp-route-categoryFilter="@ViewBag.CurrentSelectedCategory">
+                        По популярности
+                    </a>
+                </div>
+                <div class="categories">
+                    <p class="filter-title">Категории: </p>
+                    @foreach (var category in Model)
+                    {
+                        <a class="filter-child" asp-action="@indexAction" asp-controller="@controllerName"
+                           asp-route-sortOrder="@ViewBag.CurrentSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter" asp-route-categoryFilter="@category.Id">
+                            @category.Name
+                        </a>
+                    }
+                </div>
+                <div>
+                    <a asp-action="@indexAction"> <button class="search-filter-btn">Сбросить</button> </a>
+                </div>
+            </div>
+            <div class="products" id="products">
+                <div id="products-cards-field" class="cards box-container">
+                    @*Сюда загружаются partial _ProductsLoad*@
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

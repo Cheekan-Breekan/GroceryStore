@@ -1,0 +1,57 @@
+﻿@model CartDto
+@{
+    bool isCartFilled = Model?.Items?.Count != 0;
+}
+
+<h1 class="heading">Ваша корзина</h1>
+@if (isCartFilled)
+{
+    <div class="contact">
+        <div class="row">
+            <div class="info cart-box-container">
+                @foreach (var cartItem in Model.Items)
+                {
+                    <div id="quantity-script" data-productid="@cartItem.Id" class="box">
+                        <a asp-action="@nameof(HomeController.ProductInfo)" asp-controller="@(ControllerExt.NameOf<HomeController>())" asp-route-productId="@cartItem.Product.Id">
+                            <img class="mt-3 mb-3 product-image"
+                                 src="@(Url.Action(nameof(ImagesController.GetImage), ControllerExt.NameOf<ImagesController>(), new {imagePath = cartItem.Product.ImageMainPath}))" />
+                        </a>
+                        <p><span><a asp-action="@nameof(HomeController.ProductInfo)"
+                                   asp-controller="@(ControllerExt.NameOf<HomeController>())"  asp-route-productId="@cartItem.Product.Id">@cartItem.Product.Name</a>
+                            </span>
+                        </p>
+                        <p><span>Категория: </span>@cartItem.Product.Category.Name</p>
+                        <p>
+                            <span>Цена: </span>
+                            @(cartItem.Product.Price)₽ за шт. / 
+                            <span data-price="@(cartItem.Product.Price)" id="total-price-@(cartItem.Id)">@(cartItem.Product.Price * cartItem.Quantity)</span>₽
+                        </p>
+                        <div class="quantity-field-@(cartItem.Id)">
+                            @*Всё обновляется/исчезает тут. Сюда грузится обновлённый _CartItemQuantityPartial.cshtml после Ajax запроса*@
+                            <partial name="_CartItemQuantityPartial" model="@(new CartItemQuantityVM {CartItemId = cartItem.Id, Quantity = cartItem.Quantity})"></partial>
+                        </div>
+                        <input hidden readonly value="@cartItem.Product.Quantity" id="product-storage-quantity-@cartItem.Product.Quantity" />
+                        <button type="button" class="cart-btn control-max-width remove-cartitem-btn">Убрать из корзины</button>
+                        @* класс remove-cartitem-btn используется в js скрипте для удаления итема, в css теперь тоже*@
+                    </div>
+                }
+            </div>
+            <div class="cart-info">
+                <p>Позиций в корзине: <span id="cart-items-count">@Model.Items.Count</span></p>
+                <p>Итоговая цена: <span id="cart-price">@Model.Items.Sum(i => (i.Quantity * i.Product.Price))</span>₽</p>
+                <a asp-controller="@(ControllerExt.NameOf<OrdersController>())" asp-action="@nameof(OrdersController.CreateOrder)" asp-route-cartId="@Model.Id">Оформить заказ</a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="d-flex justify-content-center margin-big">
+        <h1>Ваша корзина пуста =(</h1>
+    </div>
+}
+
+@Html.AntiForgeryToken() @* Нужен для токена в ajax запросе *@
+<script src="~/js/updatecartprice.js"></script>
+<script src="~/js/removecartitem-ajax.js"></script>
+<script src="~/js/updatecartitemquantityajax.js"></script>

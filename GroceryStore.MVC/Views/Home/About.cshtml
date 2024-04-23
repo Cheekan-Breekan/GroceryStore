@@ -1,0 +1,29 @@
+﻿@{
+}
+
+<section class="about" id="about">
+    <h1 class="heading"> <span> Про </span> нас </h1>
+    <div class="row">
+        <div class="video-container">
+            <video src="~/Images/walk.mp4" loop autoplay muted></video>
+            <h3>Бакалея свежести</h3>
+        </div>
+        <div class="content">
+            <h3>Почему мы?</h3>
+            <p>Мы гарантируем исключительное качество и свежесть всех наших продуктов. 
+                Наш магазин предлагает широкий ассортимент свежих и вкусных продуктов прямо с фермы. 
+                Мы стремимся удовлетворить все ваши потребности в свежих продуктах, чтобы помочь вам поддерживать здоровый образ жизни.</p>
+                <p>Наш магазин в течение нескольких лет завоевал лидирующие позиции в стране,
+                    а главное - сердца миллионов покупателей!
+                </p>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-action="@nameof(HomeController.Index)" asp-controller="@(ControllerExt.NameOf<HomeController>())" class="btn">К покупкам!</a>
+            }
+            else
+            {
+                <a asp-action="@nameof(AccountController.Login)" asp-controller="@(ControllerExt.NameOf<AccountController>())" class="btn">Войти в аккаунт</a>
+            }
+        </div>   
+    </div>
+</section>

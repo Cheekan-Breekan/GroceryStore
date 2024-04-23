@@ -1,0 +1,8 @@
+﻿@model int
+
+<div id="quantity-input-inner">
+    <button type="button" class="quantity-button btn_minus quantity-controls" id="btn_minus">-</button>
+    <input type="text" class="quantity-input quantity-controls" name="productQuantity" value="1" data-max-count="100" />
+    <button type="button" class="quantity-button btn_plus quantity-controls" id="btn_plus">+</button>
+</div>
+<button class="cart-btn" id="btn-addtocart-@Model" type="submit">В корзину</button>

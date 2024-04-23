@@ -1,0 +1,73 @@
+﻿@model UserRegisterModel
+@{
+}
+<partial name="_ValidationScriptsPartial" />
+
+<div class="contact">
+    <h1 class="heading">Регистрация</h1>
+    <div class="row">
+        <form asp-action="@nameof(AccountController.Register)" class="form">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div>
+                <label asp-for="UserName"></label>
+                <div>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <input asp-for="UserName" class="box" placeholder="Ваш логин" />
+            </div>
+            <div>
+                <label asp-for="Email"></label>
+                <div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <input asp-for="Email" class="box" placeholder="Электронная почта"/>
+            </div>
+            <div>
+                <label asp-for="Password"></label>
+                <div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <input asp-for="Password" class="box" placeholder="Пароль" />
+            </div>
+            <div>
+                <label asp-for="ConfirmPassword"></label>
+                <div>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <input asp-for="ConfirmPassword" class="box" placeholder="Повторите пароль" />
+            </div>
+            <div>
+                <label asp-for="FirstName"></label>
+                <div>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <input asp-for="FirstName" class="box" placeholder="Ваше имя" />
+            </div>
+            <div>
+                <label asp-for="LastName"></label>
+                <div>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <input asp-for="LastName" class="box" placeholder="Ваша фамилия" />
+            </div>
+            <div>
+                <label asp-for="MiddleName"></label>
+                <div>
+                    <span asp-validation-for="MiddleName" class="text-danger"></span>
+                </div>
+                <input asp-for="MiddleName" class="box" placeholder="Ваше отчество" />
+            </div>
+            <div>
+                <label asp-for="BirthDate"></label>
+                <div>
+                    <span asp-validation-for="BirthDate" class="text-danger"></span>
+                </div>
+                <input asp-for="BirthDate" class="box" min="1900-01-01" max="2030-01-01"/>
+            </div>
+            <button class="btn mb-3" type="submit">Зарегистрироваться</button>
+        </form>
+        <div class="image">
+            <img src="~/Images/register.jpg" alt=""/>
+        </div>
+    </div>
+</div>

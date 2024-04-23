@@ -1,0 +1,78 @@
+﻿@model List<CategoryDto>
+@{
+    string controllerName = ControllerExt.NameOf<CategoriesEditorController>();
+    Pager pager = new Pager();
+    int page = 0;
+    if (ViewBag.Pager is not null)
+    {
+        pager = ViewBag.Pager;
+        page = pager.CurrentPage;
+        pager.CurrentSearchFilter = ViewBag.CurrentSearchFilter;
+        pager.CurrentSortOrder = ViewBag.CurrentSortOrder;
+    }
+}
+
+<h1 class="heading">Категории</h1>
+<div class="editor">
+    <div class="editor-add-btn">
+        <span>Добавить новую категорию: </span>
+    <button class="btn mt-0" type="button" 
+        onclick="location.href='@Url.Action(nameof(CategoriesEditorController.AddCategory), controllerName)'">Добавить</button>
+    </div>
+    <div class="filters">
+        <form method="get" asp-action="Index" asp-controller="@controllerName">
+            <input id="search-filter" placeholder="Поиск по названию..." name="searchFilter" value="@(ViewBag.CurrentSearchFilter as string)" />
+            <input name="sortOrder" value="@ViewBag.CurrentSortOrder" hidden />
+            <button class="details-btn" type="submit">Искать</button>
+        </form>
+    </div>
+    <table class="editor-table">
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    <a asp-action="@nameof(CategoriesEditorController.Index)" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.NameSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter">Название</a>
+                </th>
+                <th>
+                    <a asp-action="@nameof(CategoriesEditorController.Index)" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.ProductsCount" asp-route-currentFilter="@ViewBag.CurrentSearchFilter">Количество продуктов</a>
+                </th>
+                <th>
+                    <a asp-action="@nameof(CategoriesEditorController.Index)" asp-controller="@controllerName"
+                       asp-route-sortOrder="@ViewBag.IsDeletedSortOrder" asp-route-currentFilter="@ViewBag.CurrentSearchFilter">Доступна</a>
+                </th>
+                <th>Детали</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count >= 1)
+            {
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td>@category.Id</td>
+                        <td>@category.Name</td>
+                        <td>@category.ProductsCount</td>
+                        <td>@(category.IsDeleted ? "Нет" : "Да")</td>
+                        <td>
+                            <button class="details-btn" type="button" 
+                                onclick="location.href='@Url.Action(nameof(CategoriesEditorController.EditCategory), controllerName, new {categoryId = category.Id})'">
+                                Подробнее
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3">Категории не найдены!</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <partial name="_PagerPartial" model="pager"></partial>
+</div>
