@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GroceryStore.Core\GroceryStore.Core.csproj" />
+    <ProjectReference Include="..\GroceryStore.Application\GroceryStore.Application.csproj" />
   </ItemGroup>
 
 </Project>
