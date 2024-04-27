@@ -17,7 +17,7 @@
     <header>
         <input type="checkbox" id="toggler" name="">
         <label for="toggler" class="fas fa-bars"></label>
-        <a href="#" class="logo">TestMarket<span>.</span></a>
+        <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.Index) class="logo">GroceyStore<span>.</span></a>
         <nav class="navbar">
             <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.Index)>Магазин</a>
             <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.About)>О нас</a>
