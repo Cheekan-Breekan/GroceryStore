@@ -46,7 +46,7 @@ function updateCartItemQuantity(quantityChange, cartItemId, currentValue) {
 
     $.ajax({
         type: 'POST',
-        url: '/Cart/UpdateCartItemQuantity',
+        url: '/Carts/UpdateCartItemQuantity',
         data: {
             cartItemId: cartItemId,
             quantityChange: quantityChange,

@@ -10,7 +10,7 @@ function RemoveCartItemAjax(cartItemId, parentElement) {
     var token = document.getElementsByName("__RequestVerificationToken")[0].value;
     $.ajax({
         type: 'POST',
-        url: '/Cart/RemoveCartItem',
+        url: '/Carts/RemoveCartItem',
         data: {
             cartItemId: cartItemId
         },

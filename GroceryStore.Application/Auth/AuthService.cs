@@ -42,7 +42,7 @@ public class AuthService : IAuthService
         {
             return Result<MarketUser>.Failure(new Error("При регистрации произошла ошибка", result.Errors.ToDictionary(e => e.Code, e => e.Description)));
         }
-        await _userManager.AddToRoleAsync(userEntity, "Admin"); //TODO: delete
+        //await _userManager.AddToRoleAsync(userEntity, "Admin"); //TODO: delete
         return Result<MarketUser>.Success(userEntity);
     }
 

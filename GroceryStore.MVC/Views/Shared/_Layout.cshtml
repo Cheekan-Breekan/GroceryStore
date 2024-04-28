@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - Продукты</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="~/lib/toastr.js/toastr.min.css" rel="stylesheet" />
+    <link href="~/lib/toastr.js/toastr.css" rel="stylesheet" />
     <script src="~/lib/jquery/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/toastr.js/toastr.min.js"></script>
@@ -17,7 +17,7 @@
     <header>
         <input type="checkbox" id="toggler" name="">
         <label for="toggler" class="fas fa-bars"></label>
-        <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.Index) class="logo">GroceyStore<span>.</span></a>
+        <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.Index) class="logo">GroceryStore<span>.</span></a>
         <nav class="navbar">
             <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.Index)>Магазин</a>
             <a asp-controller=@(ControllerExt.NameOf<HomeController>()) asp-action=@nameof(HomeController.About)>О нас</a>
