@@ -34,3 +34,51 @@
   <li>JavaScript</li>
   <li>jQuery</li>
 </ul>
+
+<h2>Скриншоты веб-сайта</h2>
+
+<div>
+<p>Регистрация</p>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/reg.png" alt="registration"/>
+</div>
+
+<div>
+<p>Данные профиля</p>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/profile.png" alt="profile"/>
+</div>
+
+<div>
+<p>Главная страница</p>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/home1.png" alt="home"/>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/home2.png" alt="home"/>
+</div>
+
+<div>
+<p>Страница товара</p>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/productinfo.png" alt="productinfo"/>
+</div>
+
+<div>
+<p>Корзина</p>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/cart.png" alt="cart"/>
+</div>
+
+<div>
+<p>Ваши заказы</p>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/orders.png" alt="orders"/>
+</div>
+
+<div>
+<p>Подробности старого заказа</p>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/orderdetails.png" alt="orderdetails"/>
+</div>
+
+<div>
+<p>Администраторская таблица для CRUD товаров</p>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/producteditortable.png" alt="producteditortable"/>
+</div>
+
+<div>
+<p>Администраторская карточка товара</p>
+  <img src="https://github.com/Cheekan-Breekan/GroceryStore/blob/master/gitScreens/productedit.png" alt="productedit"/>
+</div>
